@@ -1,5 +1,4 @@
-lexer grammar ClimAnt ;
-
+grammar ClimAntLexer ;
 
 //Lexer rules
 //Keywords
@@ -28,11 +27,12 @@ SWITCH : 'switch' ;
 THIS : 'this' ;
 VOID : 'void' ;
 WHILE : 'while' ;
+NL : '\n' | '\r' | [\r\n] ;
 
 //constants
 fragment BlockComment : '/*' .*? ('*/' | EOF) ;
 fragment LineComment : '//' ~ [\r\n]* ;
-fragment BoolLiteral : 'true' | 'false' ;
+fragment BoolLiterals : 'true' | 'false' ;
 fragment Int : 'int' ;
 fragment Esc : '\\' ;
 fragment Colon : ':' ;
@@ -67,7 +67,6 @@ fragment NameChar
    | Underscore ;
 fragment NameChars : NameChar* ;
 
-
 // Integer literals
 
 IntegerLiteral : Minus? DecimalNumeral ;
@@ -85,6 +84,9 @@ FloatingPointLiteral : Minus? DecimalNumeral Dot DecimalNumeral? ;
 
 StringLiteral : DQuote NameChars? DQuote ;
 
+// Bool Literals
+
+BoolLiteral : BoolLiterals;
 
 // Operators
 
@@ -122,6 +124,8 @@ LSHIFT_ASSIGN : '<<=' ;
 RSHIFT_ASSIGN : '>>=' ;
 
 // Identifiers
+identifier : Identifier | 'to' | 'module' | 'open' | 'with' | 'provides' | 'uses' | 'opens' | 'requires' | 'exports';
+
 Identifier : Letter LetterOrDigit*  ;
 
 fragment
