@@ -1,0 +1,17 @@
+public class Nazwa_09 {
+
+    private int d
+    public real r
+
+    constructor (int y = 10, real u = 1.1) {
+        this.r = u
+        this.d = y
+    }
+
+    fun suma(int y = 4, int z) {
+        int c = y -z
+        return y + z
+    }
+    //    comment
+    /*more comments */
+}

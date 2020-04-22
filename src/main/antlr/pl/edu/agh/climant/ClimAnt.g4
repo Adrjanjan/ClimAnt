@@ -4,6 +4,12 @@ grammar ClimAnt ;
 package pl.edu.agh.climant;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////// PARSER RULES //////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 compilationUnit : classDeclaration EOF ;
 
 classDeclaration : accessModifier CLASS NL* identifier LEFT_BRACE classBody RIGHT_BRACE ;
@@ -15,7 +21,7 @@ accessModifier
 
 classBody : field* constructor? method* ;
 
-field : accessModifier SIMPLE_IDENTIFIER;
+field : accessModifier type SIMPLE_IDENTIFIER;
 
 constructor : CONSTRUCTOR  methodParameters methodBody;
 
@@ -36,14 +42,15 @@ type : primitiveType
      | classType ;
 
 primitiveType
-    :  BOOL ('[' ']')*
-    | STRING ('[' ']')*
-    | CHAR ('[' ']')*
-    | INT ('[' ']')*
-    | REAL ('[' ']')*
+    : BOOL (LEFT_BRACKET RIGHT_BRACKET)*
+    | STRING (LEFT_BRACKET RIGHT_BRACKET)*
+    | CHAR (LEFT_BRACKET RIGHT_BRACKET)*
+    | INT (LEFT_BRACKET RIGHT_BRACKET)*
+    | REAL (LEFT_BRACKET RIGHT_BRACKET)*
     | VOID
     ;
-classType : identifier ('[' ']')* ;
+
+classType : identifier (LEFT_BRACKET RIGHT_BRACKET)* ;
 
 expression
     : identifier #VarReference
@@ -134,7 +141,6 @@ identifier : SIMPLE_IDENTIFIER (NL* DOT SIMPLE_IDENTIFIER)* ;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Lexer rules
 //Keywords
 BOOL : 'bool' ;
 BREAK : 'break' ;
@@ -142,13 +148,16 @@ CASE : 'case' ;
 CHAR : 'char' ;
 CLASS : 'class' ;
 CONST : 'const' ;
+CONSTRUCTOR : 'constructor' ;
 CONTINUE : 'continue' ;
 DO : 'do' ;
 REAL : 'real' ;
 ELSE : 'else' ;
 FOR : 'for' ;
+FUNCTION : 'fun' ;
 IF : 'if' ;
-GOTO : 'goto' ;
+IMPORT : 'import' ;
+IN : 'in' ;
 INT : 'int' ;
 LONG : 'long' ;
 NEW : 'new' ;
@@ -157,51 +166,30 @@ PROTECTED : 'protected' ;
 PUBLIC : 'public' ;
 RETURN : 'return' ;
 STATIC : 'static' ;
+STRING : 'string';
 SWITCH : 'switch' ;
 THIS : 'this' ;
 VOID : 'void' ;
 WHILE : 'while' ;
-NL : '\n' | '\r' | [\r\n] ;
+NL : '\n' | '\r' | '\r\n' ;
+LEFT_PARENTHESIS : '(' ;
+RIGHT_PARENTHESIS : ')' ;
+LEFT_BRACE : '{' ;
+RIGHT_BRACE : '}' ;
+LEFT_BRACKET : '[' ;
+RIGHT_BRACKET : ']' ;
+COMMA : ',' ;
+DOT : '.' ;
+RANGE : '..' ;
 
 //constants
-fragment BlockComment : '/*' .*? ('*/' | EOF) ;
-fragment LineComment : '//' ~ [\r\n]* ;
-fragment BoolLiterals : 'true' | 'false' ;
-fragment Int : 'int' ;
-fragment Esc : '\\' ;
-fragment Colon : ':' ;
-fragment SQuote : '\'' ;
 fragment DQuote : '"' ;
-fragment LParen : '(' ;
-fragment RParen : ')' ;
-fragment LBrace : '{' ;
-fragment RBrace : '}' ;
-fragment LBrack : '[' ;
-fragment RBrack : ']' ;
-fragment Lt : '<' ;
-fragment Gt : '>' ;
-fragment Equal : '=' ;
-fragment Question : '?' ;
-fragment Star : '*' ;
-fragment Plus : '+' ;
 fragment Minus : '-' ;
-fragment PlusAssign : '+=' ;
-fragment Underscore : '_' ;
-fragment Comma : ',' ;
-fragment Semi : ' ;' ;
-fragment Dot : '.' ;
-fragment Range : '..' ;
-fragment Pound : '#' ;
-fragment Tilde : '~' ;
-fragment At : '@' ;
-fragment NameStartChar : [A-Za-z] ;
-fragment NameChar
-   : NameStartChar
-   | '0' .. '9'
-   | Underscore ;
-fragment NameChars : NameChar* ;
+fragment FloatingPointSeparator : '.' | ',';
+
 
 // Integer literals
+NumberLiteral :IntegerLiteral | FloatingPointLiteral;
 
 IntegerLiteral : Minus? DecimalNumeral ;
 
@@ -212,42 +200,47 @@ fragment DecimalNumeral
 
 // Float literals
 
-FloatingPointLiteral : Minus? DecimalNumeral Dot DecimalNumeral? ;
+FloatingPointLiteral : Minus? DecimalNumeral FloatingPointSeparator DecimalNumeral? ;
 
 // String Literals
 
-StringLiteral : DQuote NameChars? DQuote ;
+StringLiteral : DQuote ~('\n' | '\r' | '"')* DQuote ;
 
 // Bool Literals
 
-BoolLiteral : BoolLiterals;
+BoolLiteral :  'true' | 'false';
 
 // Operators
-
 ASSIGN : '=' ;
+INC : '++' ;
+DEC : '--' ;
+
+// Boolean
 GT : '>' ;
 LT : '<' ;
-BANG : '!' ;
-TILDE : '~' ;
-QUESTION : '?' ;
-COLON : ':' ;
-ARROW : '->' ;
+NOT : '!' | 'not' ;
 EQUAL : '==' ;
 LE : '<=' ;
 GE : '>=' ;
 NOTEQUAL : '!=' ;
-AND : '&&' ;
-OR : '||' ;
-INC : '++' ;
-DEC : '--' ;
+AND : '&&' | 'and' ;
+OR : '||' | 'or' ;
+XOR : '^' | 'xor' ;
+
+// Math
 ADD : '+' ;
 SUB : '-' ;
 MUL : '*' ;
 DIV : '/' ;
+MOD : '%' ;
+
+// Just In Case
+POWER : '**' ;
+QUESTION : '?' ;
+COLON : ':' ;
+
 BITAND : '&' ;
 BITOR : '|' ;
-CARET : '^' ;
-MOD : '%' ;
 
 ADD_ASSIGN : '+=' ;
 SUB_ASSIGN : '-=' ;
@@ -258,19 +251,11 @@ LSHIFT_ASSIGN : '<<=' ;
 RSHIFT_ASSIGN : '>>=' ;
 
 // Identifiers
-identifier : Identifier | 'to' | 'module' | 'open' | 'with' | 'provides' | 'uses' | 'opens' | 'requires' | 'exports';
-
-Identifier : Letter LetterOrDigit*  ;
-
-fragment
-Letter : [a-zA-Z_] ;
-
-fragment
-LetterOrDigit : [a-zA-Z0-9_] ;
+SIMPLE_IDENTIFIER : LETTER LETTER_OR_DIGIT*  ;
+fragment LETTER : [a-zA-Z_] ;
+fragment LETTER_OR_DIGIT : [a-zA-Z0-9_] ;
 
 // Whitespace and comments
 WS : [ \t\r\n\u000C]+ -> skip ;
-
-COMMENT : '/*' .*? '*/' -> channel(HIDDEN) ;
-
+COMMENT : '/*' .*? ('*/' | EOF) -> channel(HIDDEN) ;
 LINE_COMMENT : '//' ~[\r\n]* -> channel(HIDDEN) ;
