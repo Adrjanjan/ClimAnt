@@ -4,18 +4,14 @@ import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
 
-class ParseExampleKotlin {
+class ParseExample {
 
-    //TODO change build order - :compileKotlin mustRunAfter :generateGrammarSource
-//    fun main(args: Array<String>) {
-//        val charStream = CharStreams.fromFileName("./src/main/antlr/Erlang.g4")
-//        val erlangLexer = ErlangLexer(charStream)
-//        val commonTokenStream = CommonTokenStream(erlangLexer)
-//        val erlangParser = ErlangParser(commonTokenStream)
-//
-//        var parseTree: ParseTree = erlangParser.forms()
-//
-//        println("done")
-//    }
-
+    fun main(args: Array<String>) {
+        val charStream = CharStreams.fromFileName("./src/main/antlr/pl/edu/agh/climant/ClimAnt.g4")
+        val climAntLexer = ClimAntLexer(charStream)
+        val commonTokenStream = CommonTokenStream(climAntLexer)
+        val climAntParser = ClimAntParser(commonTokenStream)
+        var parseTree: ParseTree = climAntParser.classDeclaration()
+        println(parseTree)
+    }
 }

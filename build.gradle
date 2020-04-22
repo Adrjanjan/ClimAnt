@@ -22,6 +22,11 @@ dependencies {
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+compileKotlin.dependsOn generateGrammarSource
+
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+compileTestKotlin.dependsOn generateGrammarSource
