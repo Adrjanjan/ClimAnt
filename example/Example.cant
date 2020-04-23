@@ -4,14 +4,15 @@ public class Nazwa_09 {
     public real r
 
     constructor (int y = 10, real u = 1.1) {
-        this.r = u
-        this.d = y
+        r = u
+        d = y
     }
 
-    fun suma(int y = 4, int z) {
-        int c = y -z
+    public fun suma(int y, int z = 4) {
+        int c = y - z
         return y + z
     }
     //    comment
-    /*more comments */
+    /* more comments */
+
 }

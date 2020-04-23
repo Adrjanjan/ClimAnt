@@ -12,7 +12,7 @@ package pl.edu.agh.climant;
 
 compilationUnit : classDeclaration EOF ;
 
-classDeclaration : accessModifier CLASS NL* identifier LEFT_BRACE classBody RIGHT_BRACE ;
+classDeclaration : accessModifier CLASS identifier LEFT_BRACE classBody RIGHT_BRACE  ;
 
 accessModifier
     : PRIVATE
@@ -185,7 +185,7 @@ RANGE : '..' ;
 //constants
 fragment DQuote : '"' ;
 fragment Minus : '-' ;
-fragment FloatingPointSeparator : '.' | ',';
+fragment FloatingPointSeparator : '.';
 
 
 // Integer literals
@@ -257,5 +257,5 @@ fragment LETTER_OR_DIGIT : [a-zA-Z0-9_] ;
 
 // Whitespace and comments
 WS : [ \t\r\n\u000C]+ -> skip ;
-COMMENT : '/*' .*? ('*/' | EOF) -> channel(HIDDEN) ;
+COMMENT : '/*' .*? ('*/')  -> channel(HIDDEN) ;
 LINE_COMMENT : '//' ~[\r\n]* -> channel(HIDDEN) ;
