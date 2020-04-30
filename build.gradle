@@ -24,6 +24,10 @@ compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+generateGrammarSource {
+    arguments += ["-visitor", "-long-messages"]
+}
+
 compileKotlin.dependsOn generateGrammarSource
 
 compileTestKotlin {
@@ -31,3 +35,4 @@ compileTestKotlin {
 }
 
 compileTestKotlin.dependsOn generateGrammarSource
+
