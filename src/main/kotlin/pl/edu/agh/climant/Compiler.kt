@@ -1,26 +1,43 @@
 package pl.edu.agh.climant
 
-import org.antlr.v4.runtime.CharStreams
-import org.antlr.v4.runtime.CommonTokenStream
-import org.antlr.v4.runtime.tree.ParseTree
+import pl.edu.agh.climant.bytecode.generation.BytecodeGenerator
+import pl.edu.agh.climant.exceptions.Errors.NO_SUCH_FILE
+import pl.edu.agh.climant.exceptions.Errors.WRONG_EXTENSION
+import pl.edu.agh.climant.parsing.Parser
+import java.io.*
 
 class Compiler {
 
     fun main(args: Array<String>) {
-        validate(args)
-        val bytes = compile(args[0])
-        saveToFile(bytes)
-    }
+        try {
+            validate(args)
+            val bytes = compile(args[0])
+            saveToFile(bytes, args[0])
+        } catch (exception: Exception) {
 
+        }
+    }
+    @Throws(Exception::class)
     private fun validate(args: Array<String>) {
-        TODO("Not yet implemented")
+        if (args.size != 1) {
+            throw Exception(NO_SUCH_FILE.message)
+        }
+        val filename = args[0]
+        if(!filename.endsWith(".cant")){
+            throw Exception(WRONG_EXTENSION.message)
+        }
     }
 
-    private fun compile(fileName: String) : Array<Byte> {
-        TODO("Not yet implemented")
+    private fun compile(fileName: String) : ByteArray {
+        val file = File(fileName)
+        val absolutePath = file.absolutePath
+        val compilationUnit = Parser().parse(absolutePath)
+        return BytecodeGenerator().generate(compilationUnit)
     }
 
-    private fun saveToFile(bytes: Array<Byte>) {
-        TODO("Not yet implemented")
+    @Throws(IOException::class)
+    private fun saveToFile(bytes: ByteArray, fileName: String) {
+        val os: OutputStream = FileOutputStream(fileName)
+        os.write(bytes)
     }
 }

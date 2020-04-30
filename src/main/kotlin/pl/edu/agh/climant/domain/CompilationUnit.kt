@@ -1,4 +1,7 @@
 package pl.edu.agh.climant.domain
 
-class CompilationUnit {
+class CompilationUnit(val classDeclaration: ClassDeclaration) {
+
+    fun className() = classDeclaration.name
+
 }
