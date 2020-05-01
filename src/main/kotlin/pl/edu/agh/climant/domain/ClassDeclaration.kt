@@ -1,8 +1,11 @@
 package pl.edu.agh.climant.domain
 
-class ClassDeclaration(val name: String) {
+class ClassDeclaration(val accessModifier: AccessModifier,
+                       val name: String,
+                       val fields: Array<Field>,
+                       val constructor: Constructor,
+                       val methods: Array<Method>) {
 
-    //    classDeclaration : accessModifier CLASS identifier LEFT_BRACE classBody NL* RIGHT_BRACE NL* ;
 
 
 }
