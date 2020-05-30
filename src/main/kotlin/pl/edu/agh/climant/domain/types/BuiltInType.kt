@@ -1,6 +1,6 @@
 package pl.edu.agh.climant.domain.types
 
-enum class BultInType(
+enum class BuiltInType(
     private val xDname: String,
     private val typeClass: Class<*>?,
     private val descriptor: String,
