@@ -2,7 +2,7 @@ package pl.edu.agh.climant.domain.members
 
 import com.sun.jdi.connect.Connector.Argument
 import pl.edu.agh.climant.domain.MetaData
-import pl.edu.agh.climant.domain.types.BultInType
+import pl.edu.agh.climant.domain.types.BuiltInType
 import pl.edu.agh.climant.domain.types.Type
 import java.util.*
 import java.util.stream.Collectors.toList

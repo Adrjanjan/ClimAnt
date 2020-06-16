@@ -9,7 +9,7 @@ open class Method(val accessModifier: AccessModifier,
                   val parameters: List<Parameter>,
                   val parameterWithDefaultValue: List<ParameterWithDefaultValue>,
                   val returnType: Type,
-                  val classBody: Block
+                  val methodBody: Block
 ) {
 
     fun accept(generator: MethodGenerator){
