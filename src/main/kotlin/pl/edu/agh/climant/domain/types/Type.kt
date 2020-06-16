@@ -1,7 +1,7 @@
 package pl.edu.agh.climant.domain.types
 
 interface Type {
-    fun getName(): String?
+    fun getTypeName(): String?
     fun getTypeClass(): Class<*>?
     fun getDescriptor(): String?
     fun getInternalName(): String?
@@ -9,7 +9,7 @@ interface Type {
     fun getStoreVariableOpcode(): Int
     fun getReturnOpcode(): Int
     fun getAddOpcode(): Int
-    fun getSubstractOpcode(): Int
+    fun getSubtractOpcode(): Int
     fun getMultiplyOpcode(): Int
-    fun getDividOpcode(): Int
+    fun getDivideOpcode(): Int
 }

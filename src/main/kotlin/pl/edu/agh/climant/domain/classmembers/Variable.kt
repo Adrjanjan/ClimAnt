@@ -1,4 +1,4 @@
-package pl.edu.agh.climant.domain.members
+package pl.edu.agh.climant.domain.classmembers
 
 import pl.edu.agh.climant.domain.AccessModifier
 import pl.edu.agh.climant.domain.types.Type

@@ -1,8 +1,8 @@
 package pl.edu.agh.climant.bytecode.generation.expression
 
 import org.objectweb.asm.MethodVisitor
-import pl.edu.agh.climant.domain.statements.expression.Parameter
-import pl.edu.agh.climant.domain.members.Scope
+import pl.edu.agh.climant.domain.classmembers.Parameter
+import pl.edu.agh.climant.domain.classmembers.Scope
 
 class ParameterExpressionGenerator(private val mv: MethodVisitor,
                                    private val scope: Scope) {

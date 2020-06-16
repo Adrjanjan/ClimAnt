@@ -3,8 +3,7 @@ package pl.edu.agh.climant.bytecode.generation.method
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Opcodes
 import pl.edu.agh.climant.bytecode.generation.statement.StatementGenerator
-import pl.edu.agh.climant.domain.Method
-import pl.edu.agh.climant.domain.statements.Statement
+import pl.edu.agh.climant.domain.classmembers.Method
 import pl.edu.agh.climant.domain.statements.expression.EmptyExpression
 import pl.edu.agh.climant.domain.statements.statement.Block
 import pl.edu.agh.climant.domain.statements.statement.ReturnStatement
@@ -16,7 +15,7 @@ class MethodGenerator(private val classWriter: ClassWriter?) {
         fun appendReturn(method: Method, block: Block, statementGenerator: StatementGenerator) {
             var isLastStatementReturn = false
             if (block.statements.isNotEmpty()) {
-                val lastStatement: Statement = block.statements[block.statements.size - 1]
+                val lastStatement = block.statements[block.statements.size - 1]
                 isLastStatementReturn = lastStatement is ReturnStatement
             }
             if (!isLastStatementReturn) {

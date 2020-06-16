@@ -1,14 +1,14 @@
-package pl.edu.agh.climant.domain.members
+package pl.edu.agh.climant.domain.classmembers
 
 import pl.edu.agh.climant.bytecode.generation.FieldGenerator
 import pl.edu.agh.climant.domain.AccessModifier
 import pl.edu.agh.climant.domain.types.Type
 
 class Field(
-        private val accessModifier: AccessModifier,
-        private val fieldName: String,
-        private val typeName: Type,
-        private val owner: Type
+    private val accessModifier: AccessModifier,
+    private val fieldName: String,
+    private val typeName: Type,
+    private val owner: Type
 ) : Variable {
 
     override fun getAccessModifier() = accessModifier
@@ -19,7 +19,7 @@ class Field(
 
     fun getInternalName() = owner.getInternalName()!!
 
-    fun accept(generator: FieldGenerator){
+    fun accept(generator: FieldGenerator) {
         generator.generate(this)
     }
 }

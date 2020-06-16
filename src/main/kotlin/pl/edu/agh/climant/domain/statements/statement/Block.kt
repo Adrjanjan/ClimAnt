@@ -2,7 +2,7 @@ package pl.edu.agh.climant.domain.statements.statement
 
 import pl.edu.agh.climant.bytecode.generation.statement.StatementGenerator
 import pl.edu.agh.climant.domain.statements.Statement
-import pl.edu.agh.climant.domain.members.Scope
+import pl.edu.agh.climant.domain.classmembers.Scope
 
 class Block(val scope: Scope, val statements: List<Statement>) : Statement {
 

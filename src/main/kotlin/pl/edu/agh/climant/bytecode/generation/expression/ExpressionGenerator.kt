@@ -1,14 +1,17 @@
 package pl.edu.agh.climant.bytecode.generation.expression
 
 import org.objectweb.asm.MethodVisitor
-import pl.edu.agh.climant.domain.statements.expression.Parameter
-import pl.edu.agh.climant.domain.members.Scope
+import pl.edu.agh.climant.domain.classmembers.Parameter
+import pl.edu.agh.climant.domain.classmembers.Scope
 import pl.edu.agh.climant.domain.statements.expression.EmptyExpression
+import pl.edu.agh.climant.domain.statements.expression.Value
 
 class ExpressionGenerator(private val mv: MethodVisitor,
-                          private val scope: Scope) {
+                          private val scope: Scope
+) {
 
     private val parameterExpressionGenerator = ParameterExpressionGenerator(mv, scope)
+    private val valueExpressionGenerator = ValueExpressionGenerator(mv)
 
     fun generate(parameter: Parameter) {
         parameterExpressionGenerator.generate(parameter)
@@ -16,6 +19,10 @@ class ExpressionGenerator(private val mv: MethodVisitor,
 
     fun generate(emptyExpression : EmptyExpression){
         // nothing to do!
+    }
+
+    fun generate(value: Value) {
+        valueExpressionGenerator.generate(value)
     }
 
 }

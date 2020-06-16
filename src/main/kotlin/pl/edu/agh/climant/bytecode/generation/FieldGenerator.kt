@@ -1,7 +1,7 @@
 package pl.edu.agh.climant.bytecode.generation
 
 import org.objectweb.asm.ClassWriter
-import pl.edu.agh.climant.domain.members.Field
+import pl.edu.agh.climant.domain.classmembers.Field
 
 class FieldGenerator(private val classWriter: ClassWriter) {
 

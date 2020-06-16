@@ -5,56 +5,52 @@ import java.util.*
 
 
 class ClassType(name: String) : Type {
-    private val name: String?
+    private val name: String
     private val shortcuts: Map<String, String> = mapOf(
         "List" to "java.util.ArrayList"
     )
-    override fun getName(): String? {
-        return name
+
+    init {
+        this.name = Optional.ofNullable(shortcuts[name]).orElse(name)
     }
 
-    override fun getTypeClass(): Class<*> {
-        return try {
-            Class.forName(name)
-        } catch (e: ClassNotFoundException) {
-            throw RuntimeException()
-        }
+    override fun getTypeName() = name
+
+    override fun getTypeClass() = try {
+        Class.forName(name)
+    } catch (e: ClassNotFoundException) {
+        throw RuntimeException()
     }
 
-    override fun getDescriptor(): String? {
-        return "L" + getInternalName() + ";"
-    }
+    override fun getDescriptor() = "L" + getInternalName() + ";"
 
-    override fun getInternalName(): String? {
-        return name!!.replace(".", "/")
-    }
 
-    override fun getLoadVariableOpcode(): Int {
-        return Opcodes.ALOAD
-    }
+    override fun getInternalName() = name!!.replace(".", "/")
 
-    override fun getStoreVariableOpcode(): Int {
-        return Opcodes.ASTORE
-    }
 
-    override fun getReturnOpcode(): Int {
-        return Opcodes.ARETURN
-    }
+    override fun getLoadVariableOpcode() = Opcodes.ALOAD
+
+
+    override fun getStoreVariableOpcode() = Opcodes.ASTORE
+
+
+    override fun getReturnOpcode() = Opcodes.ARETURN
+
 
     override fun getAddOpcode(): Int {
-        throw RuntimeException("This operation is not implemented")
+        throw RuntimeException("Add operation is not implemented")
     }
 
-    override fun getSubstractOpcode(): Int {
-        throw RuntimeException("This operation is not implemented")
+    override fun getSubtractOpcode(): Int {
+        throw RuntimeException("Substract operation is not implemented")
     }
 
     override fun getMultiplyOpcode(): Int {
-        throw RuntimeException("This operation is not implemented")
+        throw RuntimeException("Multiply operation is not implemented")
     }
 
-    override fun getDividOpcode(): Int {
-        throw RuntimeException("This operation is not implemented")
+    override fun getDivideOpcode(): Int {
+        throw RuntimeException("Divide operation is not implemented")
     }
 
     override fun equals(other: Any?): Boolean {
@@ -73,10 +69,5 @@ class ClassType(name: String) : Type {
         var result = name?.hashCode() ?: 0
         result = 31 * result + shortcuts.hashCode()
         return result
-    }
-
-
-    init {
-        this.name = Optional.ofNullable(shortcuts[name]).orElse(name)
     }
 }

@@ -1,7 +1,7 @@
 package pl.edu.agh.climant.bytecode.generation.method
 
-import pl.edu.agh.climant.domain.Method
-import pl.edu.agh.climant.domain.statements.expression.Parameter
+import pl.edu.agh.climant.domain.classmembers.Method
+import pl.edu.agh.climant.domain.classmembers.Parameter
 import pl.edu.agh.climant.domain.types.Type
 
 fun getMethodDescriptor(method: Method): String {

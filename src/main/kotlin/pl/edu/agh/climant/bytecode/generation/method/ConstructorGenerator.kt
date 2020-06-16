@@ -3,7 +3,7 @@ package pl.edu.agh.climant.bytecode.generation.method
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Opcodes
 import pl.edu.agh.climant.bytecode.generation.statement.StatementGenerator
-import pl.edu.agh.climant.domain.Constructor
+import pl.edu.agh.climant.domain.classmembers.Constructor
 
 class ConstructorGenerator(private val classWriter: ClassWriter?) {
 

@@ -44,7 +44,7 @@ enum class BuiltInType(
         null, "", TypeSpecificOpcodes.OBJECT), VOID("void", Void.TYPE, "V", TypeSpecificOpcodes.VOID
     );
 
-    override fun getName(): String? {
+    override fun getTypeName(): String? {
         return xDname
     }
 
@@ -76,7 +76,7 @@ enum class BuiltInType(
         return opcodes.add
     }
 
-    override fun getSubstractOpcode(): Int {
+    override fun getSubtractOpcode(): Int {
         return opcodes.substract
     }
 
@@ -84,7 +84,7 @@ enum class BuiltInType(
         return opcodes.multiply
     }
 
-    override fun getDividOpcode(): Int {
+    override fun getDivideOpcode(): Int {
         return opcodes.divide
     }
 

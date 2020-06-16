@@ -1,6 +1,5 @@
 package pl.edu.agh.climant.domain.types
 
-import com.sun.org.apache.bcel.internal.generic.*
 import org.objectweb.asm.Opcodes.*
 
 enum class TypeSpecificOpcodes(
