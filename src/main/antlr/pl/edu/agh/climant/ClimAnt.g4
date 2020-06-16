@@ -16,8 +16,8 @@ classDeclaration : accessModifier CLASS identifier LEFT_BRACE classBody NL* RIGH
 
 accessModifier
     : PRIVATE
-//    | PROTECTED # TODO jak robimy dziedziczenie
-    | PUBLIC ;
+    | PUBLIC
+    ;
 
 classBody : field* constructor? method* ;
 
@@ -82,19 +82,6 @@ expression
     | cmp=NOT expression #ConditionalExpression
     ;
 
-booleanExpression :
-    | expression cmp=GT expression
-    | expression cmp=LT expression
-    | expression cmp=EQUAL expression
-    | expression cmp=NOTEQUAL expression
-    | expression cmp=GE expression
-    | expression cmp=LE expression
-    | expression cmp=AND expression
-    | expression cmp=OR expression
-    | expression cmp=XOR expression
-    | cmp=NOT expression
-    ;
-
 value
     : NumberLiteral
     | BoolLiteral
@@ -118,7 +105,7 @@ statement
     | expression
     ;
 
-ifStatement :  IF LEFT_PARENTHESIS booleanExpression RIGHT_PARENTHESIS trueStatement=statement (ELSE falseStatement=statement)?;
+ifStatement :  IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS trueStatement=statement (ELSE falseStatement=statement)?;
 
 returnStatement: RETURN expression;
 
@@ -141,7 +128,7 @@ identifier : SIMPLE_IDENTIFIER (NL* DOT SIMPLE_IDENTIFIER)* ;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Keywords
+//Keywords - some are reserved for later usage
 BOOL : 'bool' ;
 BREAK : 'break' ;
 CASE : 'case' ;

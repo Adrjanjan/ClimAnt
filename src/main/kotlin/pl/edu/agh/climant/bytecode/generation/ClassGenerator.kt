@@ -2,6 +2,8 @@ package pl.edu.agh.climant.bytecode.generation
 
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Opcodes
+import pl.edu.agh.climant.bytecode.generation.method.ConstructorGenerator
+import pl.edu.agh.climant.bytecode.generation.method.MethodGenerator
 import pl.edu.agh.climant.domain.ClassDeclaration
 import pl.edu.agh.climant.domain.Constructor
 import pl.edu.agh.climant.domain.Method
@@ -20,11 +22,13 @@ class ClassGenerator {
         fields.forEach { it.accept(fieldGenerator) }
 
         val constructor: Constructor = classDeclaration.constructor
-        val constructorGenerator = ConstructorGenerator(classWriter)
+        val constructorGenerator =
+            ConstructorGenerator(classWriter)
         constructor.accept(constructorGenerator)
 
         val methods: Array<Method> = classDeclaration.methods
-        val methodGenerator = MethodGenerator(classWriter)
+        val methodGenerator =
+            MethodGenerator(classWriter)
         methods.forEach { it.accept(methodGenerator) }
 
         classWriter.visitEnd()
