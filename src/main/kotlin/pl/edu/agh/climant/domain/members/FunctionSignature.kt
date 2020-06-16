@@ -1,6 +1,6 @@
 package pl.edu.agh.climant.domain.members
 
-import pl.edu.agh.climant.domain.Parameter
+import pl.edu.agh.climant.domain.statements.expression.Parameter
 import pl.edu.agh.climant.domain.types.Type
 
 public class FunctionSignature {
