@@ -4,6 +4,7 @@ import org.objectweb.asm.MethodVisitor
 import pl.edu.agh.climant.bytecode.generation.expression.ExpressionGenerator
 import pl.edu.agh.climant.domain.classmembers.Parameter
 import pl.edu.agh.climant.domain.classmembers.Scope
+import pl.edu.agh.climant.domain.statements.expression.ConditionalExpression
 import pl.edu.agh.climant.domain.statements.expression.EmptyExpression
 import pl.edu.agh.climant.domain.statements.expression.Value
 import pl.edu.agh.climant.domain.statements.statement.Assignment
@@ -45,5 +46,9 @@ class StatementGenerator(mv: MethodVisitor, scope: Scope) {
 
     fun generate(value: Value) {
         expressionGenerator.generate(value)
+    }
+
+    fun generate(conditionalExpression: ConditionalExpression) {
+        TODO("Not yet implemented")
     }
 }

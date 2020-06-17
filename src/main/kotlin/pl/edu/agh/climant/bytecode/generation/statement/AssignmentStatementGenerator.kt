@@ -3,7 +3,7 @@ package pl.edu.agh.climant.bytecode.generation.statement
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 import pl.edu.agh.climant.bytecode.generation.expression.ExpressionGenerator
-import pl.edu.agh.climant.domain.members.Scope
+import pl.edu.agh.climant.domain.classmembers.Scope
 import pl.edu.agh.climant.domain.statements.statement.Assignment
 import pl.edu.agh.climant.domain.types.Type
 

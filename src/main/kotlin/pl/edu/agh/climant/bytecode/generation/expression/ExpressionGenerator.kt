@@ -3,6 +3,7 @@ package pl.edu.agh.climant.bytecode.generation.expression
 import org.objectweb.asm.MethodVisitor
 import pl.edu.agh.climant.domain.classmembers.Parameter
 import pl.edu.agh.climant.domain.classmembers.Scope
+import pl.edu.agh.climant.domain.statements.expression.ConditionalExpression
 import pl.edu.agh.climant.domain.statements.expression.EmptyExpression
 import pl.edu.agh.climant.domain.statements.expression.Value
 
@@ -23,6 +24,10 @@ class ExpressionGenerator(private val mv: MethodVisitor,
 
     fun generate(value: Value) {
         valueExpressionGenerator.generate(value)
+    }
+
+    fun generate(conditionalExpression: ConditionalExpression) {
+        TODO("Not yet implemented")
     }
 
 }
