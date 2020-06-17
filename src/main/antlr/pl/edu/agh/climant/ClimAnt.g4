@@ -25,7 +25,9 @@ field : accessModifier type SIMPLE_IDENTIFIER;
 
 constructor : CONSTRUCTOR  methodParameters methodBody;
 
-method : accessModifier FUNCTION identifier methodParameters methodBody;
+methodSignature: accessModifier type identifier methodParameters;
+
+method : methodSignature methodBody;
 
 methodBody : block;
 
@@ -98,12 +100,14 @@ statement
     : block
     | assignment
     | variableDeclaration
-//    | printStatement
+    | printStatement
     | forStatement
     | returnStatement
     | ifStatement
     | expression
     ;
+
+printStatement : 'print' expression;
 
 ifStatement :  IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS trueStatement=statement (ELSE falseStatement=statement)?;
 
