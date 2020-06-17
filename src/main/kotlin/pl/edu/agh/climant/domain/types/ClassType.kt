@@ -1,6 +1,6 @@
 package pl.edu.agh.climant.domain.types
 
-import jdk.internal.org.objectweb.asm.Opcodes
+import org.objectweb.asm.Opcodes
 import java.util.*
 
 

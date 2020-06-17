@@ -4,13 +4,10 @@ import pl.edu.agh.climant.bytecode.generation.statement.StatementGenerator
 import pl.edu.agh.climant.domain.statements.Statement
 import pl.edu.agh.climant.domain.statements.expression.Expression
 
-class Assignment(var variableName: String,
-                 var expression: Expression) : Statement {
+class Assignment(variableDeclaration: VariableDeclaration) : Statement {
 
-    constructor(variableDeclaration: VariableDeclaration) {
-        this.variableName = variableDeclaration.variableName
-        this.expression = variableDeclaration.expression
-    }
+    var variableName: String = variableDeclaration.variableName
+    var expression: Expression = variableDeclaration.expression
 
     override fun accept(generator: StatementGenerator) {
         generator.generate(this)
