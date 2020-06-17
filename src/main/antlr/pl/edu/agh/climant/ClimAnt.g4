@@ -25,7 +25,9 @@ field : accessModifier type SIMPLE_IDENTIFIER;
 
 constructor : CONSTRUCTOR  methodParameters methodBody;
 
-method : accessModifier FUNCTION identifier methodParameters methodBody;
+methodSignature: accessModifier type identifier methodParameters;
+
+method : methodSignature methodBody;
 
 methodBody : block;
 
