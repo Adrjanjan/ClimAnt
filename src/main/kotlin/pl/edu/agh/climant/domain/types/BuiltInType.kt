@@ -40,8 +40,10 @@ enum class BuiltInType(
         Array<String>::class.java, "[Ljava/lang/String;", TypeSpecificOpcodes.OBJECT
     ),
     NONE(
-        "",
-        null, "", TypeSpecificOpcodes.OBJECT), VOID("void", Void.TYPE, "V", TypeSpecificOpcodes.VOID
+        "", null, "", TypeSpecificOpcodes.OBJECT
+    ),
+    VOID(
+        "void", Void.TYPE, "V", TypeSpecificOpcodes.VOID
     );
 
     override fun getTypeName(): String {

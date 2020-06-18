@@ -21,7 +21,7 @@ class MethodVisitor(scope_out: Scope) : ClimAntBaseVisitor<Method>(){
         if(methodSignature.name == scope.className){
             return Constructor(AccessModifier.PUBLIC, methodSignature.name, methodSignature.parameters,methodSignature.returnType, block as Block)
         }
-        return Method(AccessModifier.PUBLIC, methodSignature.name, methodSignature.parameters,methodSignature.returnType, block as Block)
+        return Method(AccessModifier.PUBLIC, methodSignature, block as Block)
     }
 
     private fun addParametersAsLocalVariables(signature: MethodSignature) {
