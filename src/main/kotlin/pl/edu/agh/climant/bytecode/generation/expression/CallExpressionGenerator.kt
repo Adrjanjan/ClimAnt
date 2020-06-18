@@ -1,103 +1,88 @@
 package pl.edu.agh.climant.bytecode.generation.expression
 
-import jdk.internal.org.objectweb.asm.Opcodes
+import org.objectweb.asm.MethodVisitor
+import org.objectweb.asm.Opcodes
 import pl.edu.agh.climant.bytecode.generation.method.getMethodDescriptor
 import pl.edu.agh.climant.domain.classmembers.MethodSignature
 import pl.edu.agh.climant.domain.classmembers.Parameter
 import pl.edu.agh.climant.domain.classmembers.Scope
-import pl.edu.agh.climant.domain.statements.expression.Call
-import pl.edu.agh.climant.domain.statements.expression.ConstructorCall
-import pl.edu.agh.climant.domain.statements.expression.Expression
-import pl.edu.agh.climant.domain.statements.expression.MethodCall
+import pl.edu.agh.climant.domain.statements.expression.*
 import pl.edu.agh.climant.domain.types.ClassType
-import java.util.*
-import java.util.function.Consumer
+import pl.edu.agh.climant.exceptions.WrongArgumentNameException
+import pl.edu.agh.climant.exceptions.WrongMethodCallArguments
 
-
-class CallExpressionGenerator(
-    private val expressionGenerator: ExpressionGenerator,
-    val scope: Scope,
-    private val methodVisitor: org.objectweb.asm.MethodVisitor
-) {
+class CallExpressionGenerator(val expressionGenerator: ExpressionGenerator,
+                              val mv: MethodVisitor,
+                              val scope: Scope) {
 
     fun generate(constructorCall: ConstructorCall) {
-        val signature: MethodSignature =
-            scope.getConstructorCallSignature(constructorCall.identifier, constructorCall.arguments)
-        val ownerDescriptor: String = ClassType(signature.name).getDescriptor()
-        methodVisitor.visitTypeInsn(Opcodes.NEW, ownerDescriptor)
-        methodVisitor.visitInsn(Opcodes.DUP)
-        val methodDescriptor: String = getMethodDescriptor(signature)
+        val signature = scope.getConstructorCallSignature(constructorCall.identifier, constructorCall.arguments)
+        val ownerDescriptor = ClassType(signature.name).getDescriptor()
+
+        mv.visitTypeInsn(Opcodes.NEW, ownerDescriptor)
+        mv.visitInsn(Opcodes.DUP)
+
+        val methodDescriptor = getMethodDescriptor(signature)
         generateArguments(constructorCall, signature)
-        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerDescriptor, "<init>", methodDescriptor, false)
+
+        mv.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerDescriptor, "<init>", methodDescriptor, false)
     }
 
     fun generate(methodCall: MethodCall) {
-        val owner: Expression = methodCall.owner
+        val owner = methodCall.owner
         owner.accept(expressionGenerator)
+
         generateArguments(methodCall)
-        val functionName: String = methodCall.identifier
-        val methodDescriptor: String = getMethodDescriptor(methodCall.signature)
-        val ownerDescriptor: String = methodCall.owner.ide
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerDescriptor, functionName, methodDescriptor, false)
+
+        val methodName = methodCall.identifier
+        val methodDescriptor = getMethodDescriptor(methodCall.signature)
+        val ownerDescriptor = methodCall.owner.type.getInternalName()
+
+        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerDescriptor, methodName, methodDescriptor, false)
     }
 
-    private fun generateArguments(call: MethodCall) {
-        val signature: MethodSignature =
-            scope.getMethodCallSignature(call.type , call.identifier, call.arguments)
-        generateArguments(call, signature)
-    }
-
-
-    private fun generateArguments(call: ConstructorCall) {
-        val signature: MethodSignature = scope.getConstructorCallSignature(call.identifier, call.arguments)
-        generateArguments(call, signature)
+    private fun generateArguments(methodCall: MethodCall) {
+        val signature = scope.getMethodCallSignature(methodCall.owner.type, methodCall.identifier, methodCall.arguments)
+        generateArguments(methodCall, signature)
     }
 
     private fun generateArguments(call: Call, signature: MethodSignature) {
-        val parameters: List<Parameter> = signature.parameters
-        var arguments: List<Argument> = call.arguments
+        val parameters = signature.parameters
+        var arguments = call.arguments
+
+        if (arguments.size > parameters.size) {
+            throw WrongMethodCallArguments(call)
+        }
+
         arguments = getSortedArguments(arguments, parameters)
-        arguments.forEach { it.accept(expressionGenerator) }
-        generateDefaultParameters(call, parameters, arguments);
+        arguments.forEach { argument ->
+            argument.accept(expressionGenerator)
+        }
+        generateDefaultParameters(call, parameters, arguments)
     }
 
-    private fun getSortedArguments(
-        arguments: List<Argument>,
-        parameters: List<Parameter>
-    ): List<Argument> {
-        val argumentIndexComparator =
-            label@ Comparator { o1: Argument, o2: Argument ->
-                if (!o1.parameterName.isPresent()) return@label 0
-                getIndexOfArgument(o1, parameters) - getIndexOfArgument(o2, parameters)
+    private fun getSortedArguments(arguments: List<Argument>, parameters: List<Parameter>): List<Argument> {
+        return arguments.sortedWith ( Comparator { a, b ->
+            when {
+                (a.parameterName == null) -> 0
+                else -> getIndexOfArgument(a, parameters) - getIndexOfArgument(b, parameters)
             }
-        return Ordering.from(argumentIndexComparator).immutableSortedCopy(arguments)
+        })
     }
 
-    private fun getIndexOfArgument(
-        argument: Argument,
-        parameters: List<Parameter>
-    ): Int {
-        val paramName: String = argument.parameterName!!.get()
-        return parameters.stream()
-            .filter(Predicate<Parameter> { p: Parameter -> p.getName().equals(paramName) })
-            .map(Function<Parameter, R> { o: Parameter -> parameters.indexOf(o) })
-            .findFirst()
-            .orElseThrow(Supplier<RuntimeException> {
-                WrongArgumentNameException(
-                    argument,
-                    parameters
-                )
-            })
+
+    private fun getIndexOfArgument(argument: Argument, parameters: List<Parameter>): Int {
+        val paramName: String = argument.parameterName!!
+        return parameters.filter { p: Parameter -> p.name == paramName }
+            .map { o: Parameter -> parameters.indexOf(o) }
+            .stream().findFirst().orElseThrow{ WrongArgumentNameException(argument, parameters) }
     }
 
-    private fun generateDefaultParameters(
-        call: Call,
-        parameters: List<Parameter>,
-        arguments: List<Argument>
-    ) {
+    private fun generateDefaultParameters(call: Call, parameters: List<Parameter>, arguments: List<Argument>) {
         for (i in arguments.size until parameters.size) {
-            val defaultParameter: Expression = parameters[i].defaultValue
+            val defaultParameter: Expression = parameters[i].defaultValue ?: throw WrongMethodCallArguments(call)
             defaultParameter.accept(expressionGenerator)
         }
     }
+
 }

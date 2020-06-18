@@ -11,9 +11,9 @@ fun getMethodDescriptor(method: Method): String {
     return getMethodDescriptor(parameters, returnType)
 }
 
-fun getMethodDescriptor(method: MethodSignature): String {
-    val parameters = method.parameters
-    val returnType = method.returnType
+fun getMethodDescriptor(signature: MethodSignature): String {
+    val parameters = signature.parameters
+    val returnType = signature.returnType
     return getMethodDescriptor(parameters, returnType)
 }
 

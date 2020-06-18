@@ -2,23 +2,25 @@ package pl.edu.agh.climant.domain.statements.expression
 
 import pl.edu.agh.climant.bytecode.generation.expression.ExpressionGenerator
 import pl.edu.agh.climant.bytecode.generation.statement.StatementGenerator
-import pl.edu.agh.climant.domain.classmembers.Parameter
 import pl.edu.agh.climant.domain.types.ClassType
 import pl.edu.agh.climant.domain.types.Type
-import java.util.*
 
+class ConstructorCall(val className: String,
+                      override val arguments: List<Argument>,
+                      override val identifier: String,
+                      override var type: Type
+) : Call {
 
-class ConstructorCall(val className: String, val arguments: List<Parameter> = emptyList()) : Call{
+    init {
+        val type: Type = ClassType(className)
+        val identifier: String = type.getTypeName()
+    }
 
-    override val type: Type = ClassType(className)
-    override val identifier: String = type.getTypeName()!!
-
-    override fun accept(genrator: ExpressionGenerator) {
-        genrator.generate(this)
+    override fun accept(generator: ExpressionGenerator) {
+//        generator.generate(this)
     }
 
     override fun accept(generator: StatementGenerator) {
-        generator.generate(this)
+//        generator.generate(this)
     }
-
 }

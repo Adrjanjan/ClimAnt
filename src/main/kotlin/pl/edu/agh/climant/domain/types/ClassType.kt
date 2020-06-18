@@ -25,7 +25,7 @@ class ClassType(name: String) : Type {
     override fun getDescriptor() = "L" + getInternalName() + ";"
 
 
-    override fun getInternalName() = name!!.replace(".", "/")
+    override fun getInternalName() = name.replace(".", "/")
 
 
     override fun getLoadVariableOpcode() = Opcodes.ALOAD
@@ -66,7 +66,7 @@ class ClassType(name: String) : Type {
     }
 
     override fun hashCode(): Int {
-        var result = name?.hashCode() ?: 0
+        var result = name.hashCode() ?: 0
         result = 31 * result + shortcuts.hashCode()
         return result
     }

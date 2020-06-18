@@ -5,7 +5,6 @@ import pl.edu.agh.climant.domain.classmembers.Parameter
 import pl.edu.agh.climant.domain.classmembers.Scope
 import pl.edu.agh.climant.domain.statements.expression.*
 
-
 class ExpressionGenerator(private val mv: MethodVisitor,
                           private val scope: Scope
 ) {
@@ -39,7 +38,8 @@ class ExpressionGenerator(private val mv: MethodVisitor,
         valueExpressionGenerator.generate(value)
     }
 
-    fun generate(constructorCall: ConstructorCall?) {
-        callExpressionGenerator.generate(constructorCall)
+    fun generate(methodCall: MethodCall) {
+        TODO("Not yet implemented")
     }
+
 }
