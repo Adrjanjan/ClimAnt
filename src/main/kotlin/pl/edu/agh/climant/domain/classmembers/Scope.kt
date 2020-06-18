@@ -1,6 +1,7 @@
 package pl.edu.agh.climant.domain.classmembers
 
 import pl.edu.agh.climant.domain.MetaData
+import pl.edu.agh.climant.domain.statements.expression.Argument
 import pl.edu.agh.climant.domain.types.BuiltInType
 import pl.edu.agh.climant.domain.types.ClassType
 import pl.edu.agh.climant.domain.types.Type
@@ -34,7 +35,7 @@ class Scope {
         methods.add(methodSignature)
     }
 
-    fun methodExists(identifier: String, arguments: List<Parameter> = listOf()) =
+    fun methodExists(identifier: String, arguments: List<Argument> = listOf()) =
         identifier == "super" ||
                 methods.any { methodSignature ->
                     methodSignature.matches(identifier, arguments)
@@ -44,7 +45,7 @@ class Scope {
         return getMethodCallSignature(identifier, emptyList())
     }
 
-    fun getConstructorCallSignature(className: String, arguments: List<Parameter>): MethodSignature {
+    fun getConstructorCallSignature(className: String, arguments: List<Argument>): MethodSignature {
         return if (className == this.className) {
             getConstructorCallSignatureForCurrentClass(arguments)
         } else {
@@ -55,11 +56,11 @@ class Scope {
         }
     }
 
-    private fun getConstructorCallSignatureForCurrentClass(arguments: List<Parameter>): MethodSignature {
+    private fun getConstructorCallSignatureForCurrentClass(arguments: List<Argument>): MethodSignature {
         return getMethodCallSignature(null, className, arguments)
     }
 
-    private fun getMethodCallSignature(owner: Type?, methodName: String, arguments: List<Parameter>): MethodSignature {
+    fun getMethodCallSignature(owner: Type?, methodName: String, arguments: List<Argument>): MethodSignature {
         if (owner != null && owner != classType) {
             val argumentsTypes: List<Type> = arguments.map { it.type }
             return getMethodSignature(owner, methodName, argumentsTypes)
@@ -68,7 +69,7 @@ class Scope {
         return getMethodCallSignature(methodName, arguments)
     }
 
-    private fun getMethodCallSignature(identifier: String, arguments: List<Parameter>): MethodSignature {
+    private fun getMethodCallSignature(identifier: String, arguments: List<Argument>): MethodSignature {
         return if (identifier == "super") {
             MethodSignature("super", emptyList(), BuiltInType.VOID)
         } else {

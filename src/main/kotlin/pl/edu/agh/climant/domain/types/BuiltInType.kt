@@ -44,7 +44,7 @@ enum class BuiltInType(
         null, "", TypeSpecificOpcodes.OBJECT), VOID("void", Void.TYPE, "V", TypeSpecificOpcodes.VOID
     );
 
-    override fun getTypeName(): String? {
+    override fun getTypeName(): String {
         return xDname
     }
 
@@ -52,11 +52,11 @@ enum class BuiltInType(
         return typeClass
     }
 
-    override fun getDescriptor(): String? {
+    override fun getDescriptor(): String {
         return descriptor
     }
 
-    override fun getInternalName(): String? {
+    override fun getInternalName(): String {
         return descriptor
     }
 

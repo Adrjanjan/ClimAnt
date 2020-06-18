@@ -6,6 +6,7 @@ import org.objectweb.asm.Opcodes
 import pl.edu.agh.climant.domain.CompareSign
 import pl.edu.agh.climant.domain.classmembers.MethodSignature
 import pl.edu.agh.climant.domain.classmembers.Parameter
+import pl.edu.agh.climant.domain.statements.expression.Argument
 import pl.edu.agh.climant.domain.statements.expression.ConditionalExpression
 import pl.edu.agh.climant.domain.statements.expression.MethodCall
 import pl.edu.agh.climant.domain.types.BuiltInType
@@ -25,7 +26,11 @@ class ConditionalExpressionGenerator(val mv: MethodVisitor,
         } else {
             val parameter = Parameter("o", ClassType("java.lang.Object"), null)
             val parameters = arrayListOf(parameter)
-            val argument = Argument(null, rightExpression.type, rightExpression)
+            val argument = Argument(
+                null,
+                rightExpression.type,
+                rightExpression
+            )
             val arguments = arrayListOf(argument)
 
             when (compareSign) {

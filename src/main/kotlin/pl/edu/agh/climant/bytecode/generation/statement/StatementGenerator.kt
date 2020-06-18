@@ -10,11 +10,17 @@ import pl.edu.agh.climant.domain.statements.statement.*
 class StatementGenerator(mv: MethodVisitor, scope: Scope) {
 
     private val expressionGenerator = ExpressionGenerator(mv, scope)
+    private val printStatementGenerator = PrintStatementGenerator(expressionGenerator, mv)
     private val blockStatementGenerator = BlockStatementGenerator(mv)
     private val returnStatementGenerator = ReturnStatementGenerator(expressionGenerator, mv)
     private val variableDeclarationGenerator = VariableDeclarationStatementGenerator(expressionGenerator, this)
+    private val ifStatementGenerator = IfStatementGenerator(expressionGenerator, mv, this)
     private val forStatementGenerator = ForStatementGenerator(mv)
     private val assignmentStatementGenerator = AssignmentStatementGenerator(expressionGenerator, mv, scope)
+
+    fun generate(printStatement: PrintStatement) {
+        printStatementGenerator.generate(printStatement)
+    }
 
     fun generate(parameter: Parameter) {
         expressionGenerator.generate(parameter)
@@ -60,7 +66,11 @@ class StatementGenerator(mv: MethodVisitor, scope: Scope) {
         expressionGenerator.generate(value)
     }
 
+    fun generate(methodCall: MethodCall) {
+        expressionGenerator.generate(methodCall)
+    }
+
     fun generate(ifStatement: IfStatement) {
-        TODO("Not yet implemented")
+        ifStatementGenerator.generate(ifStatement)
     }
 }

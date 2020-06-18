@@ -38,4 +38,8 @@ class ExpressionGenerator(private val mv: MethodVisitor,
         valueExpressionGenerator.generate(value)
     }
 
+    fun generate(methodCall: MethodCall) {
+        TODO("Not yet implemented")
+    }
+
 }
