@@ -74,6 +74,10 @@ class StatementGenerator(mv: MethodVisitor, scope: Scope) {
         expressionGenerator.generate(methodCall)
     }
 
+    fun generate(constructorCall: ConstructorCall) {
+        expressionGenerator.generate(constructorCall)
+    }
+
     fun generate(addition: Addition) {
         expressionGenerator.generate(addition)
     }
