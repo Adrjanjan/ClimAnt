@@ -3,6 +3,8 @@ package pl.edu.agh.climant.domain.types
 import org.apache.commons.lang3.StringUtils
 import pl.edu.agh.climant.ClimAntParser
 
+
+
 fun getFromTypeContext(typeContext: ClimAntParser.TypeContext?): Type? {
     return if (typeContext == null) BuiltInType.VOID else getFromTypeName(typeContext.getText())
 }

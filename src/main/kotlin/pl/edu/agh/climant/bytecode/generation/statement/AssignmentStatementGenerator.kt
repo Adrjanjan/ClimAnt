@@ -9,14 +9,15 @@ import pl.edu.agh.climant.domain.types.Type
 
 class AssignmentStatementGenerator(private val expressionGenerator: ExpressionGenerator,
                                    private val mv: MethodVisitor,
-                                   private val scope: Scope) {
+                                   private val scope: Scope
+) {
 
     fun generate(assignment: Assignment) {
         val variableName = assignment.variableName
         val expression = assignment.expression
         val type = expression.type
 
-        if (scope.isLocalVariableExists(variableName)) {
+        if (scope.localVariableExists(variableName)) {
             val index = scope.getLocalVariableIndex(variableName)
             val localVariable = scope.getLocalVariable(variableName)
             val localVariableType = localVariable.getType()

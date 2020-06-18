@@ -97,7 +97,7 @@ class Scope {
         throw NoSuchVariableExists(varName)
     }
 
-    fun isLocalVariableExists(varName: String?): Boolean {
+    fun localVariableExists(varName: String?): Boolean {
         return localVariables.containsKey(varName)
     }
 
