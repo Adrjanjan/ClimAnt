@@ -40,14 +40,14 @@ class ConditionalExpressionGenerator(val mv: MethodVisitor,
             when (compareSign) {
                 CompareSign.EQUAL, CompareSign.NOT_EQUAL -> {
                     val equalsSignature = MethodSignature("equals", parameters, BuiltInType.BOOLEAN)
-                    val equalsCall = MethodCall(equalsSignature, arguments, leftExpression, equalsSignature.name, leftExpression.type)
+                    val equalsCall = MethodCall(equalsSignature, arguments, leftExpression)
                     equalsCall.accept(expressionGenerator)
                     mv.visitInsn(Opcodes.ICONST_1)
                     mv.visitInsn(Opcodes.IXOR)
                 }
                 CompareSign.LESS, CompareSign.GREATER, CompareSign.LESS_OR_EQUAL, CompareSign.GREATER_OR_EQUAL -> {
                     val compareToSignature = MethodSignature("compareTo", parameters, BuiltInType.INT)
-                    val compareToCall = MethodCall(compareToSignature, arguments, leftExpression, compareToSignature.name, leftExpression.type)
+                    val compareToCall = MethodCall(compareToSignature, arguments, leftExpression)
                     compareToCall.accept(expressionGenerator)
                 }
             }

@@ -6,15 +6,13 @@ import pl.edu.agh.climant.domain.types.ClassType
 import pl.edu.agh.climant.domain.types.Type
 
 class ConstructorCall(override var arguments: List<Argument>,
-                      override var identifier: String,
-                      override var type: Type
+                      override var type: Type,
+                      override var identifier: String
 ) : Call {
 
-    constructor(identifier: String) {
-        ConstructorCall(identifier, listOf())
-    }
+    constructor(identifier: String) : this(identifier, listOf())
 
-    constructor(className: String, arguments: List<Argument>) {
+    constructor(className: String, arguments: List<Argument>) : this(arguments, ClassType(className), className) {
         this.type = ClassType(className)
         this.arguments = arguments
         this.identifier = type.getTypeName()

@@ -13,24 +13,13 @@ class MethodCall(
     override var type: Type
 ) : Call {
 
-    init {
-        this.type = signature.returnType
-    }
+    constructor(methodSignature: MethodSignature,
+                arguments: List<Argument>,
+                ownerType: Type) : this(methodSignature, arguments, EmptyExpression(ownerType))
 
     constructor(methodSignature: MethodSignature,
                 arguments: List<Argument>,
-                ownerType: Type) {
-        MethodCall(methodSignature, arguments, EmptyExpression(ownerType))
-    }
-
-    constructor(methodSignature: MethodSignature,
-                arguments: List<Argument>,
-                owner: Expression) {
-        this.type = signature.returnType
-        this.signature = methodSignature
-        this.arguments = arguments
-        this.owner = owner
-    }
+                owner: Expression) : this(methodSignature, owner, arguments, methodSignature.name, methodSignature.returnType)
 
     override fun accept(generator: ExpressionGenerator) {
         generator.generate(this)
