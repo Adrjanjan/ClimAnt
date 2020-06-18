@@ -7,6 +7,7 @@ import pl.edu.agh.climant.domain.classmembers.Method
 import pl.edu.agh.climant.domain.statements.expression.EmptyExpression
 import pl.edu.agh.climant.domain.statements.statement.Block
 import pl.edu.agh.climant.domain.statements.statement.ReturnStatement
+import pl.edu.agh.climant.util.getMethodDescriptor
 
 class MethodGenerator(private val classWriter: ClassWriter?) {
     companion object {

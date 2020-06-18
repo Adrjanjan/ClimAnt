@@ -1,12 +1,15 @@
-package pl.edu.agh.climant.domain.types
+package pl.edu.agh.climant.util
 
 import org.apache.commons.lang3.StringUtils
 import pl.edu.agh.climant.ClimAntParser
-
+import pl.edu.agh.climant.domain.types.BuiltInType
+import pl.edu.agh.climant.domain.types.Type
 
 
 fun getFromTypeContext(typeContext: ClimAntParser.TypeContext?): Type? {
-    return if (typeContext == null) BuiltInType.VOID else getFromTypeName(typeContext.getText())
+    return if (typeContext == null) BuiltInType.VOID else getFromTypeName(
+        typeContext.getText()
+    )
 }
 
 fun getFromTypeName(typeName: String): Type {

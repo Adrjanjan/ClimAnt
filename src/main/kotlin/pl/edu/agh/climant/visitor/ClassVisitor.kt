@@ -8,6 +8,7 @@ import pl.edu.agh.climant.ClimAntParser.FieldContext
 import pl.edu.agh.climant.domain.AccessModifier
 import pl.edu.agh.climant.domain.MetaData
 import pl.edu.agh.climant.domain.classmembers.*
+import pl.edu.agh.climant.domain.statements.expression.Parameter
 import pl.edu.agh.climant.domain.statements.statement.Block
 import java.util.*
 import java.util.stream.Collectors.toList

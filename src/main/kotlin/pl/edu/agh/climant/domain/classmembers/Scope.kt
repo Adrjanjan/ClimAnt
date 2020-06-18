@@ -6,6 +6,8 @@ import pl.edu.agh.climant.domain.types.BuiltInType
 import pl.edu.agh.climant.domain.types.ClassType
 import pl.edu.agh.climant.domain.types.Type
 import pl.edu.agh.climant.exceptions.*
+import pl.edu.agh.climant.util.getConstructorSignature
+import pl.edu.agh.climant.util.getMethodSignature
 import java.util.*
 
 class Scope {

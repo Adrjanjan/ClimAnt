@@ -2,9 +2,9 @@ package pl.edu.agh.climant.bytecode.generation.expression
 
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
-import pl.edu.agh.climant.bytecode.generation.method.getMethodDescriptor
+import pl.edu.agh.climant.util.getMethodDescriptor
 import pl.edu.agh.climant.domain.classmembers.MethodSignature
-import pl.edu.agh.climant.domain.classmembers.Parameter
+import pl.edu.agh.climant.domain.statements.expression.Parameter
 import pl.edu.agh.climant.domain.classmembers.Scope
 import pl.edu.agh.climant.domain.statements.expression.*
 import pl.edu.agh.climant.domain.types.ClassType

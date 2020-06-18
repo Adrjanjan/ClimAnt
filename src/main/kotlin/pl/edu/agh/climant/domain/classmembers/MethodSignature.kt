@@ -1,8 +1,8 @@
 package pl.edu.agh.climant.domain.classmembers
 
 import pl.edu.agh.climant.domain.statements.expression.Argument
+import pl.edu.agh.climant.domain.statements.expression.Parameter
 import pl.edu.agh.climant.domain.types.Type
-import java.util.function.Predicate
 import java.util.stream.IntStream
 
 data class MethodSignature(

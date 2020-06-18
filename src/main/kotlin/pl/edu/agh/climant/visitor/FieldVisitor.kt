@@ -7,7 +7,7 @@ import pl.edu.agh.climant.domain.AccessModifier
 import pl.edu.agh.climant.domain.classmembers.Field
 import pl.edu.agh.climant.domain.classmembers.Scope
 import pl.edu.agh.climant.domain.types.Type
-import pl.edu.agh.climant.domain.types.getFromTypeContext
+import pl.edu.agh.climant.util.getFromTypeContext
 
 
 class FieldVisitor(scope_out: Scope) : ClimAntBaseVisitor<Field>(){

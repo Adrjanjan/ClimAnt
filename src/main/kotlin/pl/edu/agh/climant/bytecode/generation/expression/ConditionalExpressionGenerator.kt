@@ -5,7 +5,7 @@ import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 import pl.edu.agh.climant.domain.CompareSign
 import pl.edu.agh.climant.domain.classmembers.MethodSignature
-import pl.edu.agh.climant.domain.classmembers.Parameter
+import pl.edu.agh.climant.domain.statements.expression.Parameter
 import pl.edu.agh.climant.domain.statements.expression.Argument
 import pl.edu.agh.climant.domain.statements.expression.ConditionalExpression
 import pl.edu.agh.climant.domain.statements.expression.MethodCall

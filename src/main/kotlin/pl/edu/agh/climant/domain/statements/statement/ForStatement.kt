@@ -5,7 +5,7 @@ import pl.edu.agh.climant.domain.classmembers.Scope
 import pl.edu.agh.climant.domain.statements.Statement
 import pl.edu.agh.climant.domain.statements.expression.Expression
 import pl.edu.agh.climant.domain.types.Type
-import pl.edu.agh.climant.domain.types.TypeChecker
+import pl.edu.agh.climant.util.TypeChecker
 import pl.edu.agh.climant.exceptions.UnsupportedForLoopTypes
 
 class ForStatement(

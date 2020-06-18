@@ -1,4 +1,4 @@
-package pl.edu.agh.climant.domain.classmembers
+package pl.edu.agh.climant.domain.statements.expression
 
 import pl.edu.agh.climant.bytecode.generation.expression.ExpressionGenerator
 import pl.edu.agh.climant.bytecode.generation.statement.StatementGenerator

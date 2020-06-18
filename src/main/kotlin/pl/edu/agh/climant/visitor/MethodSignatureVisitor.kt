@@ -5,7 +5,7 @@ import pl.edu.agh.climant.ClimAntBaseVisitor
 import pl.edu.agh.climant.ClimAntParser
 import pl.edu.agh.climant.domain.classmembers.MethodSignature
 import pl.edu.agh.climant.domain.classmembers.Scope
-import pl.edu.agh.climant.domain.types.getFromTypeContext
+import pl.edu.agh.climant.util.getFromTypeContext
 import java.util.*
 
 class MethodSignatureVisitor(scope_out: Scope)  : ClimAntBaseVisitor<MethodSignature>() {

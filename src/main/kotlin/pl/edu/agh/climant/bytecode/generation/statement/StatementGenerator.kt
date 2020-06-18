@@ -2,7 +2,7 @@ package pl.edu.agh.climant.bytecode.generation.statement
 
 import org.objectweb.asm.MethodVisitor
 import pl.edu.agh.climant.bytecode.generation.expression.ExpressionGenerator
-import pl.edu.agh.climant.domain.classmembers.Parameter
+import pl.edu.agh.climant.domain.statements.expression.Parameter
 import pl.edu.agh.climant.domain.classmembers.Scope
 import pl.edu.agh.climant.domain.statements.expression.*
 import pl.edu.agh.climant.domain.statements.statement.*

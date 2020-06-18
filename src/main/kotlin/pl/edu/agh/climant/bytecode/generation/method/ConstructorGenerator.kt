@@ -4,6 +4,7 @@ import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.Opcodes
 import pl.edu.agh.climant.bytecode.generation.statement.StatementGenerator
 import pl.edu.agh.climant.domain.classmembers.Constructor
+import pl.edu.agh.climant.util.getMethodDescriptor
 
 class ConstructorGenerator(private val classWriter: ClassWriter?) {
 

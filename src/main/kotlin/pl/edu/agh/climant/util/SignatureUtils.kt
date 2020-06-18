@@ -1,10 +1,11 @@
-package pl.edu.agh.climant.domain.classmembers
+package pl.edu.agh.climant.util
 
 import org.apache.commons.lang3.reflect.ConstructorUtils
 import org.apache.commons.lang3.reflect.MethodUtils
+import pl.edu.agh.climant.domain.classmembers.MethodSignature
+import pl.edu.agh.climant.domain.statements.expression.Parameter
 import pl.edu.agh.climant.domain.types.BuiltInType
 import pl.edu.agh.climant.domain.types.Type
-import pl.edu.agh.climant.domain.types.getFromTypeName
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
 
@@ -48,7 +49,11 @@ fun fromMethod(method: Method): MethodSignature {
             )
         }
     val returnType = method.returnType
-    return MethodSignature(method.name, parameters, getFromTypeName(returnType.canonicalName))
+    return MethodSignature(
+        method.name,
+        parameters,
+        getFromTypeName(returnType.canonicalName)
+    )
 }
 
 fun fromConstructor(constructor: Constructor<*>): MethodSignature? {
@@ -60,5 +65,9 @@ fun fromConstructor(constructor: Constructor<*>): MethodSignature? {
                 null
             )
         }
-    return MethodSignature(constructor.name, parameters, BuiltInType.VOID)
+    return MethodSignature(
+        constructor.name,
+        parameters,
+        BuiltInType.VOID
+    )
 }
