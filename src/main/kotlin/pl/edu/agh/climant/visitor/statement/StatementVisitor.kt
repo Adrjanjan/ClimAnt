@@ -6,6 +6,7 @@ import pl.edu.agh.climant.domain.classmembers.Scope
 import pl.edu.agh.climant.domain.statements.Statement
 import pl.edu.agh.climant.domain.statements.expression.ConditionalExpression
 import pl.edu.agh.climant.domain.statements.expression.Expression
+import pl.edu.agh.climant.visitor.expression.ExpressionVisitor
 
 class StatementVisitor(val scope: Scope) : ClimAntBaseVisitor<Statement>() {
 
@@ -28,7 +29,7 @@ class StatementVisitor(val scope: Scope) : ClimAntBaseVisitor<Statement>() {
         assignmentStatementVisitor = AssignmentStatementVisitor(expressionVisitor)
     }
 
-    override fun visitPrintStatement(ctx: ClimAntParser.PrintStatementContext): Statement? {
+    override fun visitPrintStatement(ctx: ClimAntParser.PrintStatementContext): Statement {
         return printStatementVisitor.visit(ctx)
     }
 
@@ -36,39 +37,39 @@ class StatementVisitor(val scope: Scope) : ClimAntBaseVisitor<Statement>() {
         return returnStatementVisitor.visit(ctx)
     }
 
-    override fun visitVariableDeclaration(ctx: ClimAntParser.VariableDeclarationContext): Statement? {
+    override fun visitVariableDeclaration(ctx: ClimAntParser.VariableDeclarationContext): Statement {
         return variableDeclarationStatementVisitor.visit(ctx)
     }
 
-    override fun visitBlock(ctx: ClimAntParser.BlockContext): Statement? {
+    override fun visitBlock(ctx: ClimAntParser.BlockContext): Statement {
         return blockStatementVisitor.visit(ctx)
     }
 
-    override fun visitIfStatement(ctx: ClimAntParser.IfStatementContext): Statement? {
+    override fun visitIfStatement(ctx: ClimAntParser.IfStatementContext): Statement {
         return ifStatementVisitor.visit(ctx)
     }
 
-    override fun visitVarReference(ctx: ClimAntParser.VarReferenceContext): Expression? {
+    override fun visitVarReference(ctx: ClimAntParser.VarReferenceContext): Expression {
         return expressionVisitor.visit(ctx)
     }
 
-    override fun visitValue(ctx: ClimAntParser.ValueContext): Expression? {
+    override fun visitValue(ctx: ClimAntParser.ValueContext): Expression {
         return expressionVisitor.visit(ctx)
     }
 
-    override fun visitFunctionCall(ctx: ClimAntParser.FunctionCallContext): Expression? {
+    override fun visitFunctionCall(ctx: ClimAntParser.FunctionCallContext): Expression {
         return expressionVisitor.visit(ctx)
     }
 
-    override fun visitConstructorCall(ctx: ClimAntParser.ConstructorCallContext): Expression? {
+    override fun visitConstructorCall(ctx: ClimAntParser.ConstructorCallContext): Expression {
         return expressionVisitor.visit(ctx)
     }
 
-    override fun visitAdd(ctx: ClimAntParser.AddContext): Expression? {
+    override fun visitAdd(ctx: ClimAntParser.AddContext): Expression {
         return expressionVisitor.visit(ctx)
     }
 
-    override fun visitMultiply(ctx: ClimAntParser.MultiplyContext): Expression? {
+    override fun visitMultiply(ctx: ClimAntParser.MultiplyContext): Expression {
         return expressionVisitor.visit(ctx)
     }
 
@@ -76,27 +77,27 @@ class StatementVisitor(val scope: Scope) : ClimAntBaseVisitor<Statement>() {
         return expressionVisitor.visit(ctx)
     }
 
-    override fun visitSubstract(ctx: ClimAntParser.SubstractContext): Expression? {
+    override fun visitSubstract(ctx: ClimAntParser.SubstractContext): Expression {
         return expressionVisitor.visit(ctx)
     }
 
-    override fun visitDivide(ctx: ClimAntParser.DivideContext): Expression? {
+    override fun visitDivide(ctx: ClimAntParser.DivideContext): Expression {
         return expressionVisitor.visit(ctx)
     }
 
-    override fun visitPower(ctx: ClimAntParser.PowerContext): Expression? {
+    override fun visitPower(ctx: ClimAntParser.PowerContext): Expression {
         return expressionVisitor.visit(ctx)
     }
 
-    override fun visitConditionalExpression(ctx: ClimAntParser.ConditionalExpressionContext): ConditionalExpression? {
+    override fun visitConditionalExpression(ctx: ClimAntParser.ConditionalExpressionContext): ConditionalExpression {
         return expressionVisitor.visit(ctx)
     }
 
-    override fun visitForStatement(ctx: ClimAntParser.ForStatementContext): Statement? {
+    override fun visitForStatement(ctx: ClimAntParser.ForStatementContext): Statement {
         return forStatementVisitor.visit(ctx)
     }
 
-    override fun visitAssignment(ctx: ClimAntParser.AssignmentContext): Statement? {
+    override fun visitAssignment(ctx: ClimAntParser.AssignmentContext): Statement {
         return assignmentStatementVisitor.visit(ctx)
     }
 

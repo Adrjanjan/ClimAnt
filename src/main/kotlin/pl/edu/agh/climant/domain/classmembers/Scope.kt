@@ -11,35 +11,35 @@ import pl.edu.agh.climant.util.getMethodSignature
 import java.util.*
 
 class Scope {
-    private val methods: MutableList<MethodSignature>
+    private val methodSignatures: MutableList<MethodSignature>
     private val metaData: MetaData
     private val localVariables: MutableMap<String, LocalVariable>
     private val fields: MutableMap<String, Field?>
 
     constructor(metaData: MetaData) {
         this.metaData = metaData
-        methods = ArrayList()
+        methodSignatures = ArrayList()
         localVariables = mutableMapOf()
         fields = mutableMapOf()
     }
 
     constructor(scope: Scope) {
         metaData = scope.metaData
-        methods = scope.methods
+        methodSignatures = scope.methodSignatures
         fields = scope.fields
         localVariables = scope.localVariables
     }
 
-    fun addMethod(methodSignature: MethodSignature) {
-        if (methodExists(methodSignature.name)) {
+    fun addMethodSignature(methodSignature: MethodSignature) {
+        if (methodSignatureExists(methodSignature.name)) {
             throw MethodWithNameAlreadyDefinedException(methodSignature)
         }
-        methods.add(methodSignature)
+        methodSignatures.add(methodSignature)
     }
 
-    fun methodExists(identifier: String, arguments: List<Argument> = listOf()) =
+    fun methodSignatureExists(identifier: String, arguments: List<Argument> = listOf()) =
         identifier == "super" ||
-                methods.any { methodSignature ->
+                methodSignatures.any { methodSignature ->
                     methodSignature.matches(identifier, arguments)
                 }
 
@@ -75,7 +75,7 @@ class Scope {
         return if (identifier == "super") {
             MethodSignature("super", emptyList(), BuiltInType.VOID)
         } else {
-            methods.firstOrNull { it.matches(identifier, arguments) }
+            methodSignatures.firstOrNull { it.matches(identifier, arguments) }
                 ?: throw MethodSignatureNotFoundException(this, identifier, arguments)
         }
     }
@@ -130,5 +130,5 @@ class Scope {
         }
 
     val classInternalName: String
-        get() = classType.getInternalName()!!
+        get() = classType.getInternalName()
 }
