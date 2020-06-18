@@ -17,7 +17,7 @@ class AssignmentStatementGenerator(private val expressionGenerator: ExpressionGe
         val expression = assignment.expression
         val type = expression.type
 
-        if (scope.isLocalVariableExists(variableName)) {
+        if (scope.localVariableExists(variableName)) {
             val index = scope.getLocalVariableIndex(variableName)
             val localVariable = scope.getLocalVariable(variableName)
             val localVariableType = localVariable.getType()

@@ -59,4 +59,8 @@ class StatementGenerator(mv: MethodVisitor, scope: Scope) {
     fun generate(value: Value) {
         expressionGenerator.generate(value)
     }
+
+    fun generate(ifStatement: IfStatement) {
+        TODO("Not yet implemented")
+    }
 }
