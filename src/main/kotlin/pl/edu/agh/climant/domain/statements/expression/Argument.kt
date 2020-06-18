@@ -1,7 +1,7 @@
-package pl.edu.agh.climant.bytecode.generation.expression
+package pl.edu.agh.climant.domain.statements.expression
 
+import pl.edu.agh.climant.bytecode.generation.expression.ExpressionGenerator
 import pl.edu.agh.climant.bytecode.generation.statement.StatementGenerator
-import pl.edu.agh.climant.domain.statements.expression.Expression
 import pl.edu.agh.climant.domain.types.Type
 
 class Argument(val parameterName: String?,
@@ -9,10 +9,10 @@ class Argument(val parameterName: String?,
                val expression: Expression) : Expression {
 
     override fun accept(generator: ExpressionGenerator) {
-        TODO("Not yet implemented")
+        expression.accept(generator)
     }
 
     override fun accept(generator: StatementGenerator) {
-        TODO("Not yet implemented")
+        expression.accept(generator)
     }
 }
