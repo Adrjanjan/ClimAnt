@@ -34,7 +34,7 @@ class Scope {
         methods.add(methodSignature)
     }
 
-    private fun methodExists(identifier: String, arguments: List<Parameter> = listOf()) =
+    fun methodExists(identifier: String, arguments: List<Parameter> = listOf()) =
         identifier == "super" ||
                 methods.any { methodSignature ->
                     methodSignature.matches(identifier, arguments)

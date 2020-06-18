@@ -5,8 +5,6 @@ import pl.edu.agh.climant.domain.statements.Statement
 import pl.edu.agh.climant.domain.types.Type
 
 interface Expression : Statement{
-
     val type: Type
     fun accept(generator : ExpressionGenerator)
-
 }

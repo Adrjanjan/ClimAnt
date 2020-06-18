@@ -6,22 +6,22 @@ import pl.edu.agh.climant.ClimAntParser.BlockContext
 import pl.edu.agh.climant.domain.AccessModifier
 import pl.edu.agh.climant.domain.classmembers.*
 import pl.edu.agh.climant.domain.statements.Statement
+import pl.edu.agh.climant.domain.statements.statement.Block
+import pl.edu.agh.climant.visitor.statement.StatementVisitor
 
 
 class MethodVisitor(scope_out: Scope) : ClimAntBaseVisitor<Method>(){
     private val scope: Scope = scope_out
 
     override fun visitMethod(ctx: ClimAntParser.MethodContext): Method {
-        val methodSignature: MethodSignature = ctx.methodSignature().accept(FunctionSignatureVisitor(scope))
+        val methodSignature: MethodSignature = ctx.methodSignature().accept(MethodSignatureVisitor(scope))
         scope.addLocalVariable(LocalVariable(AccessModifier.PUBLIC, "this", scope.classType))
         addParametersAsLocalVariables(methodSignature)
         val block = getBlock(ctx)
         if(methodSignature.name == scope.className){
-            return Constructor(AccessModifier.PUBLIC, methodSignature.name, methodSignature.parameters,methodSignature.returnType, block)
+            return Constructor(AccessModifier.PUBLIC, methodSignature.name, methodSignature.parameters,methodSignature.returnType, block as Block)
         }
-        return Method(methodSignature, block)
-
-        return super.visitMethod(ctx)
+        return Method(AccessModifier.PUBLIC, methodSignature.name, methodSignature.parameters,methodSignature.returnType, block as Block)
     }
 
     private fun addParametersAsLocalVariables(signature: MethodSignature) {

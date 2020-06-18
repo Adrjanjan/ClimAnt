@@ -5,10 +5,11 @@ import pl.edu.agh.climant.ClimAntBaseVisitor
 import pl.edu.agh.climant.ClimAntParser
 import pl.edu.agh.climant.ClimAntParser.ClassDeclarationContext
 import pl.edu.agh.climant.ClimAntParser.FieldContext
+import pl.edu.agh.climant.domain.AccessModifier
 import pl.edu.agh.climant.domain.MetaData
-import pl.edu.agh.climant.domain.classmembers.ClassDeclaration
-import pl.edu.agh.climant.domain.classmembers.Scope
-import java.util.function.Function
+import pl.edu.agh.climant.domain.classmembers.*
+import pl.edu.agh.climant.domain.statements.statement.Block
+import java.util.*
 import java.util.stream.Collectors.toList
 
 
@@ -23,7 +24,7 @@ class ClassVisitor : ClimAntBaseVisitor<ClassDeclaration>() {
         val name: String = ctx.identifier().getText()
         val fieldVisitor = FieldVisitor(scope)
         val methodSignatureVisitor = MethodVisitor(scope)
-        val methodsCtx: List<FunctionContext> = ctx.classBody().function()
+        val methodsCtx: List<ClimAntParser.MethodContext> = ctx.classBody().method()
         val fields = ctx.classBody().field().stream()
             .map { field: FieldContext ->
                 field.accept(
@@ -31,28 +32,52 @@ class ClassVisitor : ClimAntBaseVisitor<ClassDeclaration>() {
                 )
             }
             .peek(scope::addField)
-            .collect(toList<Any>())
+            .collect(toList<Field>())
         methodsCtx.stream()
-            .map(Function<FunctionContext, Any> { method: FunctionContext ->
-                method.functionDeclaration().accept(functionSignatureVisitor)
-            })
-            .forEach(scope::addSignature)
-        val defaultConstructorExists: Boolean = scope.isParameterLessSignatureExists(name)
-        addDefaultConstructorSignatureToScope(name, defaultConstructorExists)
-        val methods: MutableList<Function> = methodsCtx.stream()
-            .map(Function<FunctionContext, Any> { method: FunctionContext ->
-                method.accept(
-                    FunctionVisitor(scope)
+            .map { method: ClimAntParser.MethodContext ->
+                method.methodSignature().accept(
+                    methodSignatureVisitor
                 )
-            })
-            .collect(toList())
-        if (!defaultConstructorExists) {
-            methods.add(getDefaultConstructor())
-        }
-        val startMethodDefined: Boolean = scope.isParameterLessSignatureExists("start")
+            }
+            .forEach(scope::addMethod)
+
+        val defaultConstructorExists: Boolean = scope.methodExists(name)
+        addDefaultConstructorSignatureToScope(name, defaultConstructorExists)
+
+        val methods = methodsCtx.stream()
+            .map { method: ClimAntParser.MethodContext ->
+                method.accept<Method>(
+                    MethodVisitor(scope)
+                )
+            }
+            .collect(toList<Method>())
+        val startMethodDefined: Boolean = scope.methodExists("start")
         if (startMethodDefined) {
             methods.add(getGeneratedMainMethod())
         }
-        return ClassDeclaration(name, fields, methods)
+        return ClassDeclaration(AccessModifier.PUBLIC, name, fields, methods)
     }
+
+    private fun addDefaultConstructorSignatureToScope(
+        name: String,
+        defaultConstructorExists: Boolean
+    ) {
+        if (!defaultConstructorExists) {
+            val constructorSignature = MethodSignature(name, emptyList<Parameter>(), BultInType.VOID)
+            scope.addSignature(constructorSignature)
+            scope.add
+        }
+    }
+
+    private fun getGeneratedMainMethod(): Method {
+        val args = Parameter("args", BultInType.STRING_ARR, Optional.empty())
+        val functionSignature = MethodSignature("main", listOf<Parameter>(args), BultInType.VOID)
+        val constructorCall = ConstructorCall(scope.className)
+        val startFunSignature = MethodSignature("start", emptyList<Parameter>(), BultInType.VOID)
+        val startFunctionCall =
+            FunctionCall(startFunSignature, emptyList(), scope.classType)
+        val block = Block(Scope(scope), Arrays.asList(constructorCall, startFunctionCall))
+        return Function(functionSignature, block)
+    }
+
 }
