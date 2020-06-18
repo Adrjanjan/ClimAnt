@@ -5,6 +5,10 @@ import pl.edu.agh.climant.bytecode.generation.expression.ExpressionGenerator
 import pl.edu.agh.climant.domain.statements.expression.Parameter
 import pl.edu.agh.climant.domain.classmembers.Scope
 import pl.edu.agh.climant.domain.statements.expression.*
+import pl.edu.agh.climant.domain.statements.expression.arithmetic.Addition
+import pl.edu.agh.climant.domain.statements.expression.arithmetic.Division
+import pl.edu.agh.climant.domain.statements.expression.arithmetic.Multiplication
+import pl.edu.agh.climant.domain.statements.expression.arithmetic.Subtraction
 import pl.edu.agh.climant.domain.statements.statement.*
 
 class StatementGenerator(mv: MethodVisitor, scope: Scope) {
@@ -20,10 +24,6 @@ class StatementGenerator(mv: MethodVisitor, scope: Scope) {
 
     fun generate(printStatement: PrintStatement) {
         printStatementGenerator.generate(printStatement)
-    }
-
-    fun generate(parameter: Parameter) {
-        expressionGenerator.generate(parameter)
     }
 
     fun generate(block: Block) {
@@ -44,6 +44,10 @@ class StatementGenerator(mv: MethodVisitor, scope: Scope) {
 
     fun generate(assignment: Assignment) {
         assignmentStatementGenerator.generate(assignment)
+    }
+
+    fun generate(parameter: Parameter) {
+        expressionGenerator.generate(parameter)
     }
 
     fun generate(emptyExpression: EmptyExpression) {
@@ -68,6 +72,22 @@ class StatementGenerator(mv: MethodVisitor, scope: Scope) {
 
     fun generate(methodCall: MethodCall) {
         expressionGenerator.generate(methodCall)
+    }
+
+    fun generate(addition: Addition) {
+        expressionGenerator.generate(addition)
+    }
+
+    fun generate(subtraction: Subtraction) {
+        expressionGenerator.generate(subtraction)
+    }
+
+    fun generate(multiplication: Multiplication) {
+        expressionGenerator.generate(multiplication)
+    }
+
+    fun generate(division: Division) {
+        expressionGenerator.generate(division)
     }
 
     fun generate(ifStatement: IfStatement) {

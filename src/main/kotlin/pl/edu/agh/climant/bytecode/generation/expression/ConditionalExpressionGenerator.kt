@@ -24,7 +24,11 @@ class ConditionalExpressionGenerator(val mv: MethodVisitor,
             rightExpression.accept(expressionGenerator)
             mv.visitInsn(Opcodes.ISUB)
         } else {
-            val parameter = Parameter("o", ClassType("java.lang.Object"), null)
+            val parameter = Parameter(
+                "o",
+                ClassType("java.lang.Object"),
+                null
+            )
             val parameters = arrayListOf(parameter)
             val argument = Argument(
                 null,
