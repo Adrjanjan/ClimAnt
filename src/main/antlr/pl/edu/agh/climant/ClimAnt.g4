@@ -23,7 +23,7 @@ classBody : field* constructor? method* ;
 
 field : accessModifier type SIMPLE_IDENTIFIER;
 
-constructor : CONSTRUCTOR  methodParameters methodBody;
+constructor : accessModifier CONSTRUCTOR methodParameters methodBody;
 
 methodSignature: accessModifier type identifier methodParameters;
 
