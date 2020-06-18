@@ -8,11 +8,14 @@ import pl.edu.agh.climant.ClimAntParser.FieldContext
 import pl.edu.agh.climant.domain.AccessModifier
 import pl.edu.agh.climant.domain.MetaData
 import pl.edu.agh.climant.domain.classmembers.*
+import pl.edu.agh.climant.domain.statements.Statement
 import pl.edu.agh.climant.domain.statements.expression.ConstructorCall
+import pl.edu.agh.climant.domain.statements.expression.Expression
 import pl.edu.agh.climant.domain.statements.expression.MethodCall
 import pl.edu.agh.climant.domain.statements.expression.Parameter
 import pl.edu.agh.climant.domain.statements.statement.Block
 import pl.edu.agh.climant.domain.types.BuiltInType
+import pl.edu.agh.climant.visitor.statement.StatementVisitor
 import java.util.*
 import java.util.stream.Collectors.toList
 
@@ -37,15 +40,16 @@ class ClassVisitor : ClimAntBaseVisitor<ClassDeclaration>() {
             }
             .peek(scope::addField)
             .collect(toList<Field>())
-        methodsCtx.stream()
-            .map { method: ClimAntParser.MethodContext ->
-                method.methodSignature().accept(
-                    methodSignatureVisitor
-                )
-            }
-            .forEach(scope::addMethod)
+        //TODO
+//        methodsCtx.stream()
+//            .map { method: ClimAntParser.MethodContext ->
+//                method.methodSignature().accept(
+//                    methodSignatureVisitor
+//                )
+//            }
+//            .forEach(scope::addMethodSignature)
 
-        val defaultConstructorExists: Boolean = scope.methodExists(name)
+        val defaultConstructorExists: Boolean = scope.methodSignatureExists(name)
         addDefaultConstructorSignatureToScope(name, defaultConstructorExists)
 
         val methods = methodsCtx.stream()
@@ -55,30 +59,38 @@ class ClassVisitor : ClimAntBaseVisitor<ClassDeclaration>() {
                 )
             }
             .collect(toList<Method>())
-        val startMethodDefined: Boolean = scope.methodExists("start")
+
+
+        val startMethodDefined: Boolean = scope.methodSignatureExists("start")
         if (startMethodDefined) {
             methods.add(getGeneratedMainMethod())
         }
 
         val constructor = ctx.classBody().constructor()
-        return ClassDeclaration(AccessModifier.PUBLIC, name, fields, Constructor(AccessModifier.PUBLIC, constructor.symbol.text,), methods)
+        //TODO add parameters to constructor
+        return ClassDeclaration(AccessModifier.PUBLIC, name, fields, Constructor(AccessModifier.PUBLIC, name, mutableListOf<Parameter>(),BuiltInType.VOID, getBlock(ctx) as Block), methods)
     }
 
     private fun addDefaultConstructorSignatureToScope(name: String, defaultConstructorExists: Boolean) {
         if (!defaultConstructorExists) {
             val constructorSignature = MethodSignature(name, emptyList<Parameter>(), BuiltInType.VOID)
-            scope.addMethod(constructorSignature)
+            scope.addMethodSignature(constructorSignature)
         }
     }
 
     private fun getGeneratedMainMethod(): Method {
-        val args = Parameter("args", BuiltInType.STRING_ARR, Optional.empty())
+        val args = Parameter("args", BuiltInType.STRING_ARR, null)
         val functionSignature = MethodSignature("main", listOf<Parameter>(args), BuiltInType.VOID)
         val constructorCall = ConstructorCall(scope.className)
         val startFunSignature = MethodSignature("start", emptyList<Parameter>(), BuiltInType.VOID)
         val startFunctionCall = MethodCall(startFunSignature, emptyList(), scope.classType)
-        val block = Block(Scope(scope), Arrays.asList(constructorCall, startFunctionCall))
+        val block = Block(Scope(scope), listOf(constructorCall, startFunctionCall))
         return Method(AccessModifier.PUBLIC, functionSignature, block)
     }
 
+    private fun getBlock(ctx: ClassDeclarationContext): Statement? {
+        val statementVisitor = StatementVisitor(scope)
+        val block: ClimAntParser.BlockContext = ctx.classBody().constructor().methodBody().block()
+        return block.accept(statementVisitor)
+    }
 }

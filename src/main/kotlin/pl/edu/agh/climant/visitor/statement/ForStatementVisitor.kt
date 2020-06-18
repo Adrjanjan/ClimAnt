@@ -8,6 +8,7 @@ import pl.edu.agh.climant.domain.classmembers.Scope
 import pl.edu.agh.climant.domain.statements.statement.Assignment
 import pl.edu.agh.climant.domain.statements.statement.ForStatement
 import pl.edu.agh.climant.domain.statements.statement.VariableDeclaration
+import pl.edu.agh.climant.visitor.expression.ExpressionVisitor
 
 
 class ForStatementVisitor(private val scope: Scope)  : ClimAntBaseVisitor<ForStatement>() {
