@@ -1,10 +1,17 @@
 package pl.edu.agh.climant.bytecode.generation.method
 
 import pl.edu.agh.climant.domain.classmembers.Method
+import pl.edu.agh.climant.domain.classmembers.MethodSignature
 import pl.edu.agh.climant.domain.classmembers.Parameter
 import pl.edu.agh.climant.domain.types.Type
 
 fun getMethodDescriptor(method: Method): String {
+    val parameters = method.parameters
+    val returnType = method.returnType
+    return getMethodDescriptor(parameters, returnType)
+}
+
+fun getMethodDescriptor(method: MethodSignature): String {
     val parameters = method.parameters
     val returnType = method.returnType
     return getMethodDescriptor(parameters, returnType)
