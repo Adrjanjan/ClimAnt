@@ -1,6 +1,9 @@
 # ClimAnt
 Simple programming language for Theory of Compilation course @ AGH UST 
 
+Link to documentation in polish:
+https://drive.google.com/file/d/1BaRNWm9upYzQ6iqI9Jf6qdXBK4T2hdWK/view?usp=sharing
+
 Kotlin, Antlr v4
 
 ## Build project
