@@ -14,18 +14,14 @@ class ParameterExpressionListVisitor(private val expressionVisitor: ExpressionVi
         val paramsCtx: List<ParameterContext> = ctx.parameter()
         val parameterExpressionVisitor = ParameterExpressionVisitor(expressionVisitor)
         val parameters: MutableList<Parameter> = ArrayList<Parameter>()
-        if (paramsCtx != null) {
-            val params: List<Parameter> =
-                List.transform(paramsCtx, { p -> p.accept(parameterExpressionVisitor) })
-            parameters.addAll(params)
-        }
+        val params: List<Parameter> = paramsCtx.map { p -> p.accept(parameterExpressionVisitor) }
+        parameters.addAll(params)
         val paramsWithDefaultValueCtx: List<ParameterWithDefaultValueContext> =
             ctx.parameterWithDefaultValue()
-        if (paramsWithDefaultValueCtx != null) {
-            val params: List<Parameter> =
-                Lists.transform(paramsWithDefaultValueCtx, { p -> p.accept(parameterExpressionVisitor) })
-            parameters.addAll(params)
-        }
+
+        val paramsWithValue: List<Parameter> =
+            paramsWithDefaultValueCtx.map { p -> p.accept(parameterExpressionVisitor) }
+        parameters.addAll(paramsWithValue)
         return parameters
     }
 

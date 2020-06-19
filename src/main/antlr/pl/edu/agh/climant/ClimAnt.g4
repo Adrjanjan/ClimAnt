@@ -12,7 +12,7 @@ package pl.edu.agh.climant;
 
 compilationUnit : classDeclaration EOF ;
 
-classDeclaration : accessModifier CLASS identifier LEFT_BRACE classBody NL* RIGHT_BRACE NL* ;
+classDeclaration : accessModifier CLASS identifier LEFT_BRACE NL* classBody NL* RIGHT_BRACE NL* ;
 
 accessModifier
     : PRIVATE

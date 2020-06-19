@@ -7,13 +7,12 @@ import pl.edu.agh.climant.domain.statements.expression.Expression
 import pl.edu.agh.climant.domain.statements.expression.Parameter
 import pl.edu.agh.climant.domain.types.Type
 import pl.edu.agh.climant.util.getFromTypeContext
-import java.util.*
 
 
 class ParameterExpressionVisitor(private val expressionVisitor: ExpressionVisitor) :
-    ClimAntBaseVisitor<Parameter?>() {
+    ClimAntBaseVisitor<Parameter>() {
     override fun visitParameter(ctx: ParameterContext): Parameter {
-        val name: String = ctx.ID().getText()
+        val name: String = ctx.identifier().text
         val type: Type = getFromTypeContext(ctx.type())!!
         return Parameter(name, type, null)
     }

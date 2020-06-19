@@ -3,12 +3,12 @@ public class Nazwa_09 {
     private int d
     public real r
 
-    constructor (int y = 10, real u = 1.1) {
+    public constructor (int y = 10, real u = 1.1) {
         r = u
         d = y
     }
 
-    public fun suma(int y, int z = 4) {
+    public int funkcja(int y, int z = 4) {
         int c = y - z
         return y + z
     }
